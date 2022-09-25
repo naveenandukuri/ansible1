@@ -1,0 +1,11 @@
+---
+- hosts: all
+  become: yes
+  tasks: 
+  - name: task1
+    include: file.yml
+
+  - name: task2
+    include: file1.yml
+
+

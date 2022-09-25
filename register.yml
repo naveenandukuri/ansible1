@@ -1,0 +1,11 @@
+---
+- hosts: all
+  become: yes
+  tasks: 
+  - name: register
+    command: ls -a
+    register: out
+
+  - name: print
+    debug:
+      msg: "{{out.stdout_lines}}"

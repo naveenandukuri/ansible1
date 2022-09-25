@@ -1,0 +1,45 @@
+---
+- hosts: all
+  become: yes
+  vars:
+    - pkg: apache2
+    - pkg1: httpd
+  tasks:
+  - name: block "{{pkg}}"
+    block: 
+      - name: installing "{{pkg}}"
+        package:
+          name:  "{{pkg}}"
+          state: present
+          update_cache: true
+        when: ansible_distribution == "Ubuntu"
+          
+      - name: copying "{{pkg}}" war file
+        copy:
+          src: index.html
+          dest: /var/www/html/index.html
+        when: ansible_distribution == "Ubuntu"
+        ignore_errors: yes
+
+  - name: block "{{pkg1}}"
+    block:
+      - name: installing "{{pkg1}}"
+        package:
+          name:  "{{pkg1}}"
+          state: present
+        notify: start service "{{pkg1}}"
+        when: ansible_distribution == "RedHat"
+
+      - name: copying 
+        copy:
+          src: index.html
+          dest: /var/www/html/index.html
+        notify: start service "{{pkg1}}"
+        when: ansible_distribution == "RedHat"
+        ignore_errors: yes
+
+  handlers:
+  - name: start service "{{pkg1}}"
+    service:
+       name: "{{pkg1}}"
+       state: reloaded

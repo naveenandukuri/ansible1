@@ -1,0 +1,29 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+    - name: task1
+      debug: 
+        msg: task1
+      tags:
+        - dev
+        - web
+    - name: task2
+      debug:
+        msg: task2
+      tags:
+        - dev
+        - nav
+    - name: task3
+      debug:
+        msg: task3
+      tags:
+        - dev
+        - db
+    - name: task4
+      debug:
+        msg: task4
+      tags:
+        - dev
+        - nav
+

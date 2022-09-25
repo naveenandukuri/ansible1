@@ -1,0 +1,29 @@
+---
+- hosts: all
+  become: yes
+  vars:
+    - name: naveen
+      location:
+        - hyderabad
+        - banglore
+      credentials:
+        username: naveen
+        password: naveen
+  tasks:
+    - name: string
+      debug:
+        msg: "{{name}}"
+
+    - name: list
+      debug:
+        msg: "{{location[1]}}"
+
+    - name: dictonary
+      debug:
+        msg: "{{credentials.password}}"
+
+    - name: facts
+      debug:
+        msg: "{{ansible_memory_mb.real.free}}"
+      when: ansible_distribution == "Ubuntu"
+
